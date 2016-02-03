@@ -1,0 +1,25 @@
+#!/bin/python
+
+from optparse import OptionParser
+import os
+
+parser = OptionParser()
+parser.add_option("-o", "--output", dest="output", help="the output file", metavar="FILE")
+parser.add_option("--dry-run", dest="dry", action='store_true', help="just print the command")
+
+(options, args) = parser.parse_args()
+
+(_,outputExtension) = os.path.splitext(options.output)
+
+if outputExtension == ".pdf":
+    pandoc_command = "pandoc -o /opt/pandoc.pdf %s" % ' '.join(args[0:-1])
+    command = "cat %s | docker run -i -a stdin -a stdout gfelbing/pandoc '%s' > %s" % (args[-1],pandoc_command,options.output)
+else:
+    pandoc_command = "pandoc %s" % ' '.join(args[0:-1])
+    command = "cat %s | docker run -i -a stdin -a stdout gfelbing/pandoc '%s' > %s" % (args[-1],pandoc_command,options.output)
+
+if options.dry:
+    print command
+else:
+    os.system(command)
+
