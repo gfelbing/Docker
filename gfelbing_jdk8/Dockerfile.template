@@ -1,0 +1,5 @@
+FROM gfelbing/debian-stable
+ADD $TAR /opt
+RUN ln -s \\`ls -d /opt/jdk*\\` /opt/jdk
+ENV PATH=\\$PATH:/opt/jdk/bin
+
