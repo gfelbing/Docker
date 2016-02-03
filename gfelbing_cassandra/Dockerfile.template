@@ -1,0 +1,5 @@
+FROM gfelbing/jdk8
+ADD $TAR /opt
+RUN ln -s \\`ls -d /opt/apache-cassandra-*\\` /opt/apache-cassandra
+ENV PATH=\\$PATH:/opt/apache-cassandra/bin
+CMD [\\"cassandra\\", \\"-Rf\\"]
