@@ -1,0 +1,18 @@
+#!/bin/sh
+# evaluate a dockerfile template containing bash variables, e.g. $VAR
+# this script should be sourced in a build-script
+# the following variables have to be set before sourcing:
+# - $TEMPLATE → the /path/to/Dockerfile.template
+# - $DOCKERFILE → the /path/to/resulting/Dockerfile (will be overwritten!)
+# - all variables which are used in Dockerfile.template
+#
+# the Dockerfile.template is basically like a default Dockerfile, but every line will be evaluated
+# → escape sh-syntax characters like $, `, etc. with double-backslash, e.g. \\$
+
+set -e 
+set -x
+
+rm -f $DOCKERFILE
+while read line; do
+    eval echo "$line" >> $DOCKERFILE
+done < $TEMPLATE
