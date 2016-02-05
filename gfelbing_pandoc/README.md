@@ -4,9 +4,13 @@ This image based on gfelbing/debian-stable contains texlive-full from debian sta
 
 ## Building files with this image
 
-You don't need to map volumes into the container and mess with permissions.
-You should cat your markdown source and pipe it to docker.
-The resulting output should be piped from stdout to the output file
+Since this image is a default debian installation having pandoc and texlive-full installed, just map the folder containing your source to the image and run pandoc on it.
 
-To do this, you can use the pandocker-python script.
+In order to not mess with permissions, it is recommended to run the docker container with a host-uid by providing the -u flag.
+
+E.g., build an /path/to/example.md with the current user
+
+```
+docker run -t -u $UID -v /path/to:/tmp/src -w /tmp/src gfelbing/pandoc "pandoc example.md"
+```
 
