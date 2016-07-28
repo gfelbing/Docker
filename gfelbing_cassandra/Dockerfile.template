@@ -1,5 +1,6 @@
 FROM gfelbing/jdk8
 ADD $TAR /opt
 RUN ln -s \\`ls -d /opt/apache-cassandra-*\\` /opt/apache-cassandra
+RUN pacman -S --noconfirm procps-ng util-linux
 ENV PATH=\\$PATH:/opt/apache-cassandra/bin
 CMD [\\"cassandra\\", \\"-Rf\\"]
